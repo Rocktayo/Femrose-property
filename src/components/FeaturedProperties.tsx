@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Property } from '../types';
 import { COMPANY_INFO } from '../data/company';
 import { 
@@ -86,7 +87,13 @@ export const FeaturedProperties: React.FC<FeaturedPropertiesProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <motion.div 
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6 }}
+          className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6"
+        >
           <div>
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#1A1A1C] border border-[#D4AF37]/40 text-[#D4AF37] text-xs font-semibold tracking-[0.2em] uppercase mb-3">
               <Building2 className="w-3.5 h-3.5" /> Featured Real Estate Collection
@@ -111,7 +118,7 @@ export const FeaturedProperties: React.FC<FeaturedPropertiesProps> = ({
               </button>
             </div>
           )}
-        </div>
+        </motion.div>
 
         {/* Filter Bar */}
         <div className={`p-4 sm:p-5 rounded-sm border mb-10 transition ${
@@ -206,15 +213,22 @@ export const FeaturedProperties: React.FC<FeaturedPropertiesProps> = ({
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProperties.map((prop) => (
-              <div
-                key={prop.id}
-                className={`group rounded-sm border overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col ${
-                  isDarkMode 
-                    ? 'bg-[#1A1A1C] border-[#2A2A2C] hover:border-[#D4AF37]' 
-                    : 'bg-white border-slate-200 hover:border-amber-400'
-                }`}
-              >
+            <AnimatePresence mode="popLayout">
+              {filteredProperties.map((prop, idx) => (
+                <motion.div
+                  key={prop.id}
+                  layout
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-30px" }}
+                  transition={{ duration: 0.5, delay: idx * 0.08 }}
+                  whileHover={{ y: -6 }}
+                  className={`group rounded-sm border overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col ${
+                    isDarkMode 
+                      ? 'bg-[#1A1A1C] border-[#2A2A2C] hover:border-[#D4AF37]' 
+                      : 'bg-white border-slate-200 hover:border-amber-400'
+                  }`}
+                >
                 {/* Image & Badges Container */}
                 <div className="relative aspect-[4/3] overflow-hidden bg-black">
                   <img
@@ -355,8 +369,9 @@ export const FeaturedProperties: React.FC<FeaturedPropertiesProps> = ({
                   </div>
 
                 </div>
-              </div>
+              </motion.div>
             ))}
+            </AnimatePresence>
           </div>
         )}
 

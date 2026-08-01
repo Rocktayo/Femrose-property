@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { COMPANY_INFO } from '../data/company';
 import { 
   Building2, 
@@ -240,14 +241,19 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         {/* Mobile Navigation Drawer */}
-        {mobileMenuOpen && (
-          <div className="fixed inset-0 top-[60px] z-50 lg:hidden flex flex-col bg-black/60 backdrop-blur-sm animate-fadeIn" onClick={() => setMobileMenuOpen(false)}>
-            <div 
-              className={`w-full max-h-[85vh] overflow-y-auto px-5 pt-4 pb-8 space-y-4 border-b shadow-2xl ${
-                isDarkMode ? 'bg-[#0A0A0B] border-[#2A2A2C] text-white' : 'bg-white border-slate-200 text-slate-900'
-              }`}
-              onClick={(e) => e.stopPropagation()}
-            >
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <div className="fixed inset-0 top-[60px] z-50 lg:hidden flex flex-col bg-black/60 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)}>
+              <motion.div 
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.25 }}
+                className={`w-full max-h-[85vh] overflow-y-auto px-5 pt-4 pb-8 space-y-4 border-b shadow-2xl ${
+                  isDarkMode ? 'bg-[#0A0A0B] border-[#2A2A2C] text-white' : 'bg-white border-slate-200 text-slate-900'
+                }`}
+                onClick={(e) => e.stopPropagation()}
+              >
               <div className="flex items-center justify-between pb-3 border-b border-[#2A2A2C]">
                 <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#D4AF37] font-serif">
                   Navigation Menu
@@ -318,9 +324,10 @@ export const Navbar: React.FC<NavbarProps> = ({
                   </a>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         )}
+        </AnimatePresence>
       </header>
     </>
   );

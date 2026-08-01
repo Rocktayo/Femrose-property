@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { GALLERY_ITEMS } from '../data/company';
 import { GalleryItem } from '../types';
 import { Camera, Maximize2, X, MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -38,7 +39,13 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ isDarkMode }) =>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <motion.div 
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6 }}
+          className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6"
+        >
           <div>
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1A1A1C] border border-[#D4AF37]/40 text-[#D4AF37] text-xs font-semibold uppercase tracking-[0.2em] mb-3">
               <Camera className="w-3.5 h-3.5" /> Architectural Showcase
@@ -69,16 +76,23 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ isDarkMode }) =>
               </button>
             ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* Gallery Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredItems.map((item) => (
-            <div
-              key={item.id}
-              onClick={() => setLightboxItem(item)}
-              className="group relative aspect-[4/3] rounded-sm border border-[#2A2A2C] overflow-hidden cursor-pointer bg-black shadow-xl hover:border-[#D4AF37] transition-all duration-300"
-            >
+          <AnimatePresence mode="popLayout">
+            {filteredItems.map((item, idx) => (
+              <motion.div
+                key={item.id}
+                layout
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.4, delay: idx * 0.05 }}
+                whileHover={{ y: -4 }}
+                onClick={() => setLightboxItem(item)}
+                className="group relative aspect-[4/3] rounded-sm border border-[#2A2A2C] overflow-hidden cursor-pointer bg-black shadow-xl hover:border-[#D4AF37] transition-all duration-300"
+              >
               <img
                 src={item.imageUrl}
                 alt={item.title}
@@ -104,21 +118,25 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ isDarkMode }) =>
               <div className="absolute top-4 right-4 w-9 h-9 rounded-sm bg-[#0A0A0B]/80 border border-[#2A2A2C] text-[#D4AF37] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                 <Maximize2 className="w-4 h-4" />
               </div>
-            </div>
+            </motion.div>
           ))}
+          </AnimatePresence>
         </div>
 
       </div>
 
       {/* Lightbox Modal */}
-      {lightboxItem && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/95 backdrop-blur-lg animate-fadeIn">
-          <button
-            onClick={() => setLightboxItem(null)}
-            className="absolute top-6 right-6 p-3 rounded-sm bg-[#1A1A1C] border border-[#2A2A2C] text-white hover:bg-[#D4AF37] hover:text-black transition z-50"
-          >
-            <X className="w-6 h-6" />
-          </button>
+      <AnimatePresence>
+        {lightboxItem && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/95 backdrop-blur-lg">
+            <motion.button
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              onClick={() => setLightboxItem(null)}
+              className="absolute top-6 right-6 p-3 rounded-sm bg-[#1A1A1C] border border-[#2A2A2C] text-white hover:bg-[#D4AF37] hover:text-black transition z-50"
+            >
+              <X className="w-6 h-6" />
+            </motion.button>
 
           {/* Prev / Next Arrows */}
           <button
@@ -136,7 +154,13 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ isDarkMode }) =>
           </button>
 
           {/* Lightbox Image Container */}
-          <div className="relative max-w-5xl w-full max-h-[85vh] flex flex-col items-center justify-center space-y-4">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.3 }}
+            className="relative max-w-5xl w-full max-h-[85vh] flex flex-col items-center justify-center space-y-4"
+          >
             <img
               src={lightboxItem.imageUrl}
               alt={lightboxItem.title}
@@ -152,9 +176,10 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ isDarkMode }) =>
                 <MapPin className="w-3.5 h-3.5 text-[#D4AF37]" /> {lightboxItem.location}
               </p>
             </div>
-          </div>
+          </motion.div>
         </div>
       )}
+      </AnimatePresence>
     </section>
   );
 };

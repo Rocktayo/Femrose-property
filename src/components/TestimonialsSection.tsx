@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { TESTIMONIALS } from '../data/company';
 import { Star, Quote, ChevronLeft, ChevronRight, CheckCircle2, Building } from 'lucide-react';
 
@@ -26,7 +27,13 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ isDark
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+        <motion.div 
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-3xl mx-auto mb-16 space-y-4"
+        >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1A1A1C] border border-[#D4AF37]/40 text-[#D4AF37] text-xs font-semibold uppercase tracking-[0.2em]">
             <Star className="w-3.5 h-3.5 fill-[#D4AF37]" /> Client Experiences & Reviews
           </div>
@@ -36,10 +43,16 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ isDark
           <p className={`text-sm sm:text-base leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
             Read firsthand accounts from homeowners, estate developers, and portfolio managers who partnered with Femrose Properties and Investments.
           </p>
-        </div>
+        </motion.div>
 
         {/* Testimonial Card Slider */}
-        <div className="max-w-4xl mx-auto">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.7 }}
+          className="max-w-4xl mx-auto"
+        >
           <div className={`relative p-8 sm:p-12 rounded-sm border shadow-2xl transition-all ${
             isDarkMode 
               ? 'bg-[#1A1A1C] border-[#2A2A2C]' 
@@ -47,49 +60,58 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ isDark
           }`}>
             <Quote className="w-16 h-16 text-[#D4AF37]/15 absolute top-6 right-8 pointer-events-none" />
 
-            <div className="space-y-6 relative z-10">
-              {/* Star Rating */}
-              <div className="flex items-center space-x-1">
-                {[...Array(activeTestimonial.rating)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 text-[#D4AF37] fill-[#D4AF37]" />
-                ))}
-              </div>
+            <AnimatePresence mode="wait">
+              <motion.div 
+                key={currentIndex}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.35 }}
+                className="space-y-6 relative z-10"
+              >
+                {/* Star Rating */}
+                <div className="flex items-center space-x-1">
+                  {[...Array(activeTestimonial.rating)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 text-[#D4AF37] fill-[#D4AF37]" />
+                  ))}
+                </div>
 
-              {/* Quote Comment */}
-              <p className={`text-lg sm:text-2xl font-serif italic leading-relaxed ${
-                isDarkMode ? 'text-slate-100' : 'text-slate-800'
-              }`}>
-                "{activeTestimonial.comment}"
-              </p>
+                {/* Quote Comment */}
+                <p className={`text-lg sm:text-2xl font-serif italic leading-relaxed ${
+                  isDarkMode ? 'text-slate-100' : 'text-slate-800'
+                }`}>
+                  "{activeTestimonial.comment}"
+                </p>
 
-              {/* Client Profile Footer */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-6 border-t border-[#2A2A2C]">
-                <div className="flex items-center space-x-4">
-                  <img
-                    src={activeTestimonial.avatar}
-                    alt={activeTestimonial.name}
-                    referrerPolicy="no-referrer"
-                    className="w-14 h-14 rounded-full object-cover border-2 border-[#D4AF37] shadow-md"
-                  />
-                  <div>
-                    <h4 className="font-bold text-base font-serif text-white flex items-center gap-1.5">
-                      {activeTestimonial.name}
-                      <CheckCircle2 className="w-4 h-4 text-[#D4AF37]" />
-                    </h4>
-                    <p className="text-xs text-[#D4AF37] font-bold uppercase tracking-wider">{activeTestimonial.role}</p>
+                {/* Client Profile Footer */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-6 border-t border-[#2A2A2C]">
+                  <div className="flex items-center space-x-4">
+                    <img
+                      src={activeTestimonial.avatar}
+                      alt={activeTestimonial.name}
+                      referrerPolicy="no-referrer"
+                      className="w-14 h-14 rounded-full object-cover border-2 border-[#D4AF37] shadow-md"
+                    />
+                    <div>
+                      <h4 className="font-bold text-base font-serif text-white flex items-center gap-1.5">
+                        {activeTestimonial.name}
+                        <CheckCircle2 className="w-4 h-4 text-[#D4AF37]" />
+                      </h4>
+                      <p className="text-xs text-[#D4AF37] font-bold uppercase tracking-wider">{activeTestimonial.role}</p>
+                    </div>
+                  </div>
+
+                  {/* Property Purchased Tag */}
+                  <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-sm border text-xs font-medium ${
+                    isDarkMode ? 'bg-[#0A0A0B] border-[#2A2A2C] text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-700'
+                  }`}>
+                    <Building className="w-3.5 h-3.5 text-[#D4AF37]" />
+                    <span>Acquired: <strong className="text-white">{activeTestimonial.propertyPurchased}</strong></span>
                   </div>
                 </div>
 
-                {/* Property Purchased Tag */}
-                <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-sm border text-xs font-medium ${
-                  isDarkMode ? 'bg-[#0A0A0B] border-[#2A2A2C] text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-700'
-                }`}>
-                  <Building className="w-3.5 h-3.5 text-[#D4AF37]" />
-                  <span>Acquired: <strong className="text-white">{activeTestimonial.propertyPurchased}</strong></span>
-                </div>
-              </div>
-
-            </div>
+              </motion.div>
+            </AnimatePresence>
 
             {/* Navigation Arrows */}
             <div className="flex items-center justify-end space-x-2 mt-6 pt-4 border-t border-[#2A2A2C]">
@@ -120,7 +142,7 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ isDark
               </button>
             </div>
           </div>
-        </div>
+        </motion.div>
 
       </div>
     </section>

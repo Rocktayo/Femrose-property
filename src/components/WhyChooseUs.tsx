@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { motion } from 'motion/react';
 import { COMPANY_INFO } from '../data/company';
 import { 
   Users, 
@@ -107,7 +108,13 @@ export const WhyChooseUs: React.FC<WhyChooseUsProps> = ({ isDarkMode }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+        <motion.div 
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-3xl mx-auto mb-16 space-y-4"
+        >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1A1A1C] border border-[#D4AF37]/40 text-[#D4AF37] text-xs font-semibold uppercase tracking-[0.2em]">
             <ShieldCheck className="w-3.5 h-3.5" /> Proven Track Record
           </div>
@@ -117,16 +124,21 @@ export const WhyChooseUs: React.FC<WhyChooseUsProps> = ({ isDarkMode }) => {
           <p className="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto font-light leading-relaxed">
             Backed by numbers, verified titles, and zero-risk legal frameworks. We deliver architectural perfection and lasting capital growth.
           </p>
-        </div>
+        </motion.div>
 
         {/* 4 Counter Stat Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           {statItems.map((stat, idx) => {
             const Icon = stat.icon;
             return (
-              <div
+              <motion.div
                 key={idx}
-                className="p-6 rounded-sm bg-[#1A1A1C] border border-[#2A2A2C] backdrop-blur text-center space-y-3 shadow-xl hover:border-[#D4AF37] transition-all duration-300 transform hover:-translate-y-1"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-30px" }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                whileHover={{ y: -6 }}
+                className="p-6 rounded-sm bg-[#1A1A1C] border border-[#2A2A2C] backdrop-blur text-center space-y-3 shadow-xl hover:border-[#D4AF37] transition-all duration-300"
               >
                 <div className="w-12 h-12 rounded-sm bg-[#0A0A0B] border border-[#2A2A2C] text-[#D4AF37] flex items-center justify-center mx-auto shadow-md">
                   <Icon className="w-6 h-6" />
@@ -136,7 +148,7 @@ export const WhyChooseUs: React.FC<WhyChooseUsProps> = ({ isDarkMode }) => {
                 </h3>
                 <h4 className="font-bold text-base text-white font-serif">{stat.label}</h4>
                 <p className="text-xs text-slate-400 leading-normal">{stat.sub}</p>
-              </div>
+              </motion.div>
             );
           })}
         </div>

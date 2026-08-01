@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { SERVICES } from '../data/company';
 import { Service } from '../types';
 import { 
@@ -50,7 +51,13 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+        <motion.div 
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-3xl mx-auto mb-16 space-y-4"
+        >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1A1A1C] border border-[#D4AF37]/40 text-[#D4AF37] text-xs font-semibold uppercase tracking-[0.2em]">
             <Sparkles className="w-3.5 h-3.5" /> Comprehensive Real Estate Solutions
           </div>
@@ -60,7 +67,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
           <p className={`text-sm sm:text-base leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
             Whether buying your dream oceanfront mansion, securing prime development land, or expanding your investment portfolio, we provide end-to-end expertise.
           </p>
-        </div>
+        </motion.div>
 
         {/* 8 Services Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -68,10 +75,15 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
             const IconComponent = getIcon(serv.iconName);
             const numStr = String(idx + 1).padStart(2, '0');
             return (
-              <div
+              <motion.div
                 key={serv.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-30px" }}
+                transition={{ duration: 0.5, delay: idx * 0.08 }}
+                whileHover={{ y: -6 }}
                 onClick={() => setSelectedService(serv)}
-                className={`group cursor-pointer p-6 rounded-sm border transition-all duration-300 flex flex-col justify-between hover:-translate-y-1.5 ${
+                className={`group cursor-pointer p-6 rounded-sm border transition-all duration-300 flex flex-col justify-between ${
                   isDarkMode 
                     ? 'bg-[#1A1A1C] border-[#2A2A2C] hover:border-[#D4AF37]' 
                     : 'bg-white border-slate-200 hover:border-amber-400 hover:shadow-xl'
@@ -102,7 +114,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                   <span>Learn More</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
@@ -110,14 +122,19 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
       </div>
 
       {/* Service Detail Modal Drawer */}
-      {selectedService && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
-          <div 
-            className={`relative w-full max-w-lg rounded-sm shadow-2xl border p-6 space-y-5 transition-all ${
-              isDarkMode ? 'bg-[#1A1A1C] border-[#2A2A2C] text-white' : 'bg-white border-slate-200 text-slate-900'
-            }`}
-            onClick={(e) => e.stopPropagation()}
-          >
+      <AnimatePresence>
+        {selectedService && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ duration: 0.25 }}
+              className={`relative w-full max-w-lg rounded-sm shadow-2xl border p-6 space-y-5 transition-all ${
+                isDarkMode ? 'bg-[#1A1A1C] border-[#2A2A2C] text-white' : 'bg-white border-slate-200 text-slate-900'
+              }`}
+              onClick={(e) => e.stopPropagation()}
+            >
             <div className="flex items-center justify-between pb-3 border-b border-[#2A2A2C]">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-sm bg-[#D4AF37]/20 text-[#D4AF37] flex items-center justify-center">
@@ -171,9 +188,10 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                 Book Service Consultation
               </button>
             </div>
-          </div>
+          </motion.div>
         </div>
       )}
+      </AnimatePresence>
     </section>
   );
 };

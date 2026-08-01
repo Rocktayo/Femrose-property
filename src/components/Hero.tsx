@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion } from 'motion/react';
 import { COMPANY_INFO } from '../data/company';
 import { 
   Building2, 
@@ -83,36 +84,61 @@ export const Hero: React.FC<HeroProps> = ({
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20 my-auto w-full">
         <div className="max-w-3xl space-y-6">
           {/* Badge / Eyebrow */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1A1A1C]/90 border border-[#D4AF37]/40 text-[#D4AF37] text-xs font-semibold uppercase tracking-[0.2em] backdrop-blur-md shadow-lg">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1A1A1C]/90 border border-[#D4AF37]/40 text-[#D4AF37] text-xs font-semibold uppercase tracking-[0.2em] backdrop-blur-md shadow-lg"
+          >
             <Award className="w-4 h-4 text-[#D4AF37]" />
             <span>Excellence in Every Square Foot</span>
-          </div>
+          </motion.div>
 
           {/* Heading */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif text-white leading-tight font-extrabold tracking-tight">
+          <motion.h1 
+            initial={{ opacity: 0, y: 25 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.25 }}
+            className="text-4xl sm:text-5xl lg:text-6xl font-serif text-white leading-tight font-extrabold tracking-tight"
+          >
             Redefining Modern <br className="hidden sm:inline" />
             <span className="gold-gradient-text">Luxury Living</span>
-          </h1>
+          </motion.h1>
 
           {/* Slogan & Tagline */}
-          <p className="text-base sm:text-lg text-[#E0E0E0] font-light max-w-2xl leading-relaxed opacity-90">
+          <motion.p 
+            initial={{ opacity: 0, y: 25 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="text-base sm:text-lg text-[#E0E0E0] font-light max-w-2xl leading-relaxed opacity-90"
+          >
             {COMPANY_INFO.slogan}
-          </p>
+          </motion.p>
 
-          <div className="flex flex-wrap items-center gap-3 text-xs text-slate-300">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.55 }}
+            className="flex flex-wrap items-center gap-3 text-xs text-slate-300"
+          >
             <span className="flex items-center gap-2 bg-[#1A1A1C]/90 px-3.5 py-2 rounded-sm border border-[#2A2A2C] backdrop-blur">
               <ShieldCheck className="w-4 h-4 text-[#D4AF37]" /> Guaranteed Title Documentation
             </span>
             <span className="flex items-center gap-2 bg-[#1A1A1C]/90 px-3.5 py-2 rounded-sm border border-[#2A2A2C] backdrop-blur">
               <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Verified Premium Properties
             </span>
-          </div>
+          </motion.div>
 
           {/* Primary Action Buttons */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-4 w-full">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.7 }}
+            className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-4 w-full"
+          >
             <a
               href="#properties"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#D4AF37] hover:bg-[#E5C158] text-black font-bold uppercase tracking-wider text-xs px-6 py-3.5 rounded-sm shadow-xl transition-all min-h-[44px]"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#D4AF37] hover:bg-[#E5C158] text-black font-bold uppercase tracking-wider text-xs px-6 py-3.5 rounded-sm shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98] min-h-[44px]"
             >
               <Search className="w-4 h-4" />
               <span>View Properties</span>
@@ -120,7 +146,7 @@ export const Hero: React.FC<HeroProps> = ({
 
             <button
               onClick={() => onOpenInspection()}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold uppercase tracking-wider text-xs px-6 py-3.5 rounded-sm backdrop-blur transition-all min-h-[44px]"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold uppercase tracking-wider text-xs px-6 py-3.5 rounded-sm backdrop-blur transition-all hover:scale-[1.02] active:scale-[0.98] min-h-[44px]"
             >
               <Calendar className="w-4 h-4 text-[#D4AF37]" />
               <span>Book Inspection</span>
@@ -129,17 +155,22 @@ export const Hero: React.FC<HeroProps> = ({
             <button
               type="button"
               onClick={() => onOpenCallDesk ? onOpenCallDesk() : (window.location.href = `tel:${COMPANY_INFO.phoneRaw}`)}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 border border-[#D4AF37]/60 bg-[#1A1A1C]/90 hover:border-[#D4AF37] hover:bg-[#2A2A2C] text-[#D4AF37] text-xs uppercase tracking-wider font-extrabold px-6 py-3.5 rounded-sm backdrop-blur transition-all min-h-[44px] cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 border border-[#D4AF37]/60 bg-[#1A1A1C]/90 hover:border-[#D4AF37] hover:bg-[#2A2A2C] text-[#D4AF37] text-xs uppercase tracking-wider font-extrabold px-6 py-3.5 rounded-sm backdrop-blur transition-all hover:scale-[1.02] active:scale-[0.98] min-h-[44px] cursor-pointer"
             >
               <PhoneCall className="w-4 h-4 text-[#D4AF37] animate-pulse" />
               <span>Call Desk ({COMPANY_INFO.phone})</span>
             </button>
-          </div>
+          </motion.div>
         </div>
       </div>
 
       {/* Hero Bottom Floating Quick Search Box */}
-      <div className="relative z-20 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mb-12 w-full">
+      <motion.div 
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.85 }}
+        className="relative z-20 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mb-12 w-full"
+      >
         <div className={`rounded-sm shadow-2xl p-4 sm:p-6 border transition-all ${
           isDarkMode
             ? 'bg-[#1A1A1C] border-[#2A2A2C] text-white'
@@ -229,7 +260,7 @@ export const Hero: React.FC<HeroProps> = ({
             </div>
           </form>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };

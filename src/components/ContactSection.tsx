@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'motion/react';
 import { COMPANY_INFO } from '../data/company';
 import { ContactFormData } from '../types';
 import { submitToFormspree } from '../lib/formspree';
@@ -124,7 +125,13 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ isDarkMode, onOp
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+        <motion.div 
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-3xl mx-auto mb-16 space-y-4"
+        >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1A1A1C] border border-[#D4AF37]/40 text-[#D4AF37] text-xs font-semibold uppercase tracking-[0.2em]">
             <Mail className="w-3.5 h-3.5" /> Direct Client Inquiries
           </div>
@@ -134,13 +141,19 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ isDarkMode, onOp
           <p className={`text-sm sm:text-base leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
             Have questions about a property listing, land title registration, or investment partnership? Get in touch today.
           </p>
-        </div>
+        </motion.div>
 
         {/* 2-Column Grid: Office Info + Form */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           
           {/* Left Column: Contact Cards & Info (5 cols) */}
-          <div className="lg:col-span-5 space-y-6">
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.7 }}
+            className="lg:col-span-5 space-y-6"
+          >
             
             <div className={`p-6 sm:p-8 rounded-sm border space-y-6 ${
               isDarkMode ? 'bg-[#1A1A1C] border-[#2A2A2C]' : 'bg-slate-50 border-slate-200'
@@ -253,10 +266,16 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ isDarkMode, onOp
               />
             </div>
 
-          </div>
+          </motion.div>
 
           {/* Right Column: Interactive Form (7 cols) */}
-          <div className="lg:col-span-7">
+          <motion.div 
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.7 }}
+            className="lg:col-span-7"
+          >
             <div className={`p-8 rounded-sm border shadow-2xl transition-all ${
               isDarkMode ? 'bg-[#1A1A1C] border-[#2A2A2C]' : 'bg-slate-50 border-slate-200'
             }`}>
@@ -471,7 +490,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ isDarkMode, onOp
                 </form>
               )}
             </div>
-          </div>
+          </motion.div>
 
         </div>
 
