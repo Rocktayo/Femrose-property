@@ -1,0 +1,6 @@
+{
+  "name": "Femrose Properties and Investments",
+  "description": "A luxury, modern, and responsive real estate company website featuring property listings, inspection booking, advanced search filters, photo gallery, testimonials, and contact inquiries.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
